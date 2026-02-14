@@ -6,21 +6,18 @@ from chat_app.config import HOST, PORT
 from chat_app.db import get_db, engine, Base
 from chat_app.models import Chat, Message
 from chat_app.websocket import manager
+from chat_app.api import router
 
 # Create tables on startup
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+app.include_router(router, prefix="/api", tags=["chats"])
 
 
 @app.get("/")
 def read_root() -> dict:
     return {"hello": "world"}
-
-
-@app.get("/chats", response_model=list)
-def list_chats(db: Session = Depends(get_db)) -> list:
-    return db.query(Chat).all()
 
 
 @app.websocket("/ws")
@@ -35,4 +32,4 @@ async def websocket_endpoint(websocket: WebSocket):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host=HOST, port=PORT)
+    uvicorn.run(app, host=HOST, port=8000)
