@@ -10,9 +10,11 @@ class Chat(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255), index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True)  # optional: chats can be unowned
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     messages = relationship("Message", back_populates="chat")
+    user = relationship("User", back_populates="chats")
 
 
 class Message(Base):
@@ -35,6 +37,7 @@ class User(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     chats = relationship("Chat", back_populates="user")
+    notifications = relationship("Notification", back_populates="user")
 
 class Notification(Base): 
     __tablename__ = "notifications"

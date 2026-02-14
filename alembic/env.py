@@ -23,7 +23,7 @@ config.set_main_option("sqlalchemy.url", database_url)
 
 # Import models so Alembic can detect them
 from chat_app.db import Base
-from chat_app.models import Chat, Message  # noqa: F401
+from chat_app.models import Chat, Message, User, Notification  # noqa: F401
 
 target_metadata = Base.metadata
 

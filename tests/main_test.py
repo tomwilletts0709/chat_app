@@ -14,6 +14,6 @@ def test_read_root():
 
 def test_list_chats_empty(client):
     """List chats returns empty list when no chats exist."""
-    response = client.get("/chats")
+    response = client.get("/api/chats")
     assert response.status_code == 200
     assert response.json() == []
